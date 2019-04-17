@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rock Paper Scissors</title>
+
+    <!-- My css files-->
+    <link rel="stylesheet" type="text/css" href="./assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+
+
+    <!-- Bootstrap File -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container text-center">
+    <div class="jumbotron">
+        <h1 class="header-4">Rock Paper Scissors</h1>
+    </div>
+</div>
+
+<div class="container players-title text-center">
+    <div class="row" id="row-players-title">
+        <div class="col-md-6" id="player-entrance">Player One</div>
+    </div>
+</div>
+
+<div class="container text-left">
+    <div class="row" id="player-status">
+        <form id="get-player-status">
+            <input type="radio" name="player-type" value="new-player"> New Player<br>
+            <br>
+            <input type="radio" name="player-type" value="existing-player"> Existing Player<br>
+            <br><br>
+            <input id="player-status-button" type="submit" value="Submit">
+            <br><br>
+        </form>
+    </div>
+
+    <div class="row" id="set-player">
+        <form id="set-player-profile" class="hidden">
+            <label for="player-name-input">Please pick a unique player name.</label><br>
+            <input type="input" name="player-name-input" value="" id="player-name-input"><br>
+            <label for="player-first-name-input">Enter your first name.</label><br>
+            <input type="input" name="player-first-name-input" value="" id="player-first-name-input"><br>
+            <label for="player-last-name-input">Enter your last name.</label><br>
+            <input type="input" name="player-last-name-input" value="" id="player-last-name-input"><br><br>
+            <input id="set-player-button" type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+
+
+
+
+<!-- JQuery -->
+<script src="https://code.jquery.com/jquery.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.9.4/firebase.js"></script>
+<script type="text/javascript" src="./assets/javascript/app.js"></script>
+</body>
+</html>

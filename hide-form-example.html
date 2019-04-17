@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body onload="shows_form_part(1)">
+<form>
+    <div id="form_part1">
+        <!--form elements 1-->
+        <button type="button" onclick="shows_form_part(2)">&raquo;</button>
+    </div>
+    <div id="form_part2">
+        <!--form elements 2-->
+        <button type="button" onclick="shows_form_part(1)">&laquo;</button>
+        <button type="button" onclick="shows_form_part(3)">&raquo;</button>
+    </div>
+    <div id="form_part3">
+        <!--form elements 3-->
+        <button type="button" onclick="shows_form_part(2)">&laquo;</button>
+        <button type="button" onclick="submit_form()">Submit</button>
+    </div>
+</form>
+</body>
+</html>
