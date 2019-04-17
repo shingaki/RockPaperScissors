@@ -16,6 +16,10 @@ var database = firebase.database(); // pointer to datbase
 
 $( document ).ready(function() {
 
+    var newPlayer = false;
+    var playerOneSet = false;
+    var playerTwoSet = false;
+
 
     console.log("load javascript");
 
@@ -30,11 +34,14 @@ $( document ).ready(function() {
             var playerStatusSelected = getRadioButtonValue(document.getElementById('get-player-status'), "player-type");
             console.log("player status selected = " + playerStatusSelected);
             if (playerStatusSelected === "new-player") {
+                newPlayer= true;
                 hideMyForm();
                 showProfileForNewPlayer();
             } else if
                 (playerStatusSelected === "existing-player") {
                     console.log("logic for existing player goes here");
+                    hideMyForm();
+                    showProfileForExistingPlayer();
             }
         } else
             console.log("please indicate if you are an existing player or a new player");
@@ -48,8 +55,26 @@ $( document ).ready(function() {
     function showProfileForNewPlayer() {
         console.log("showProfileForNewPlayer");
         $("#set-player-profile").show();
+        if (!playerOneSet) {
+            playerOneSet = true; }
+
+        else {
+            ( playerTwoSet = true ); }
+        console.log(playerTwoSet);
+        console.log(playerOneSet);
+
+    }
 
 
+    function showProfileForExistingPlayer() {
+        console.log("showProfileForExistingPlayer");
+        $("#set-player-profile").show();
+        if (!playerOneSet) {
+            playerOneSet = true; }
+        else {
+            ( playerTwoSet = true); }
+        console.log(playerTwoSet);
+        console.log(playerOneSet);
 
 
     }
@@ -72,24 +97,27 @@ $( document ).ready(function() {
     $("#set-player-button").on("click", function(event) {
         event.preventDefault();
 
-        var playerName = $("#player-name-input").val().trim();
-        var first = $("#player-first-name-input").val().trim();
-        var last = $("#player-last-name-input").val().trim();
-        var wins = 0;
-        var losses = 0;
 
-        console.log(playerName);
-        console.log(first);
-        console.log(last);
+        if (newPlayer === true) {
+            var playerName = $("#player-name-input").val().trim();
+            var first = $("#player-first-name-input").val().trim();
+            var last = $("#player-last-name-input").val().trim();
+            var wins = 0;
+            var losses = 0;
+
+            console.log(playerName);
+            console.log(first);
+            console.log(last);
 
 
-        database.ref().push({
-            player: playerName,
-            firstName: first,
-            lastName: last,
-            gamesWon: wins,
-            gamesLosses: losses
-        });
+            database.ref().push({
+                player: playerName,
+                firstName: first,
+                lastName: last,
+                gamesWon: wins,
+                gamesLosses: losses
+            });
+        }
 
     });
 });
