@@ -19,6 +19,7 @@ $( document ).ready(function() {
     var newPlayer = false;
     var playerOneSet = false;
     var playerTwoSet = false;
+    var isGameReadyToStart;
 
 
     console.log("load javascript");
@@ -30,7 +31,6 @@ $( document ).ready(function() {
         console.log("player-button-clicked");
 
         if ($('input[name=player-type]:checked').length > 0) {
-            console.log("radio button is checked");
             var playerStatusSelected = getRadioButtonValue(document.getElementById('get-player-status'), "player-type");
             console.log("player status selected = " + playerStatusSelected);
             if (playerStatusSelected === "new-player") {
@@ -57,26 +57,83 @@ $( document ).ready(function() {
         $("#set-player-profile").show();
         if (!playerOneSet) {
             playerOneSet = true; }
-
         else {
             ( playerTwoSet = true ); }
+
+        isGameReadyToStart = checkIfPlayersHaveBeenSelected();
+
+        console.log(isGameReadyToStart);
         console.log(playerTwoSet);
         console.log(playerOneSet);
 
-    }
+        if ( (playerOneSet) || (playerTwoSet) )
+        {
+            $("#player-entrance").text("Player Two");
 
+        };
+
+
+
+    }
 
     function showProfileForExistingPlayer() {
         console.log("showProfileForExistingPlayer");
         $("#set-player-profile").show();
+        $("#player-name-label").replaceWith("Enter your player name");
+        $("#set-player-button").attr("value", "OK");
+        $("#player-first-name-input").hide();
+        $("#player-last-name-input").hide();
+        $("#last-name-label").hide();
+        $("#first-name-label").hide();
+
+        if ( (playerOneSet) || (playerTwoSet) )
+        {
+            $("#player-entrance").text("Player Two");
+
+        };
+
         if (!playerOneSet) {
             playerOneSet = true; }
         else {
             ( playerTwoSet = true); }
+
+        isGameReadyToStart = checkIfPlayersHaveBeenSelected();
+
+        console.log("Game Ready - " + isGameReadyToStart);
         console.log(playerTwoSet);
         console.log(playerOneSet);
 
 
+        var query = firebase.database().ref().orderByKey();
+        query.once("value")
+            .then(function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    // key will be "ada" the first time and "alan" the second time
+                    var key = childSnapshot.key;
+                    // childData will be the actual contents of the child
+                    var childData = childSnapshot.val();
+                    console.log(childData);
+
+                    var playerName = childData.player;
+
+
+                    console.log("playerName = " + playerName);
+
+                })
+            })
+    }
+
+    function checkIfPlayersHaveBeenSelected() {
+
+        var gameReady = false;
+
+        if ( (playerOneSet) && (playerTwoSet) )
+        {
+            console.log("Both Players Have Been Captured - Start Game");
+            gameReady = true;
+        }
+
+        return gameReady;
     }
 
     function getRadioButtonValue(form, name) {
@@ -97,7 +154,6 @@ $( document ).ready(function() {
     $("#set-player-button").on("click", function(event) {
         event.preventDefault();
 
-
         if (newPlayer === true) {
             var playerName = $("#player-name-input").val().trim();
             var first = $("#player-first-name-input").val().trim();
@@ -117,6 +173,15 @@ $( document ).ready(function() {
                 gamesWon: wins,
                 gamesLosses: losses
             });
+
+            if (!isGameReadyToStart)
+            {
+                console.log("Game Is Not Ready To Start");
+                $("#player-entrance").text("Player Two");
+                $("#get-player-status").show();
+                $("#set-player-profile").hide();
+
+            }
         }
 
     });
