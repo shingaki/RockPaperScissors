@@ -70,11 +70,11 @@ $( document ).ready(function() {
         console.log(playerTwoSet);
         console.log(playerOneSet);
 
-        if ( (playerOneSet) || (playerTwoSet) )
-        {
-            $("#player-entrance").text("Player Two");
-
-        };
+        // if ( (playerOneSet) || (playerTwoSet) )
+        // {
+        //     $("#player-entrance").text("Player Two");
+        //
+        // };
 
 
 
@@ -84,17 +84,18 @@ $( document ).ready(function() {
         console.log("showProfileForExistingPlayer");
         $("#set-player-profile").show();
         $("#player-name-label").replaceWith("Enter your player name");
+        $("#player-name-input").val("");
         $("#set-player-button").attr("value", "OK");
         $("#player-first-name-input").hide();
         $("#player-last-name-input").hide();
         $("#last-name-label").hide();
         $("#first-name-label").hide();
 
-        if ( (playerOneSet) || (playerTwoSet) )
-        {
-            $("#player-entrance").text("Player Two");
-
-        };
+        // if ( (playerOneSet) || (playerTwoSet) )
+        // {
+        //     $("#player-entrance").text("Player Two");
+        //
+        // };
 
         if (!playerOneSet) {
             playerOneSet = true; }
