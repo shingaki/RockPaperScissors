@@ -17,6 +17,7 @@ var database = firebase.database(); // pointer to datbase
 $( document ).ready(function() {
 
     var newPlayer = false;
+    var existingPlayer = false;
     var playerOneSet = false;
     var playerTwoSet = false;
     var isGameReadyToStart;
@@ -54,6 +55,9 @@ $( document ).ready(function() {
 
     function showProfileForNewPlayer() {
         console.log("showProfileForNewPlayer");
+
+        newPlayer = true;
+
         $("#set-player-profile").show();
         if (!playerOneSet) {
             playerOneSet = true; }
@@ -104,23 +108,7 @@ $( document ).ready(function() {
         console.log(playerOneSet);
 
 
-        var query = firebase.database().ref().orderByKey();
-        query.once("value")
-            .then(function(snapshot) {
-                snapshot.forEach(function(childSnapshot) {
-                    // key will be "ada" the first time and "alan" the second time
-                    var key = childSnapshot.key;
-                    // childData will be the actual contents of the child
-                    var childData = childSnapshot.val();
-                    console.log(childData);
 
-                    var playerName = childData.player;
-
-
-                    console.log("playerName = " + playerName);
-
-                })
-            })
     }
 
     function checkIfPlayersHaveBeenSelected() {
@@ -154,8 +142,13 @@ $( document ).ready(function() {
     $("#set-player-button").on("click", function(event) {
         event.preventDefault();
 
+        var playerName;
+
         if (newPlayer === true) {
-            var playerName = $("#player-name-input").val().trim();
+
+            newPlayer = false;
+
+            playerName = $("#player-name-input").val().trim();
             var first = $("#player-first-name-input").val().trim();
             var last = $("#player-last-name-input").val().trim();
             var wins = 0;
@@ -182,6 +175,37 @@ $( document ).ready(function() {
                 $("#set-player-profile").hide();
 
             }
+        } else
+        {
+            console.log("existing player see if it is in the database");
+            var playerFoundCount = 0;
+
+            playerName = $("#player-name-input").val().trim();
+
+            var query = firebase.database().ref().orderByKey();
+
+            query.once("value")
+                .then(function(snapshot) {
+                    snapshot.forEach(function(childSnapshot) {
+
+                        var key = childSnapshot.key;
+
+                        var childData = childSnapshot.val();
+                        console.log(childData);
+
+                        var dBplayerName = childData.player;
+
+                        console.log("database name " + dBplayerName);
+
+                        if (dBplayerName === playerName) {
+                            playerFoundCount = playerFoundCount + 1;
+                            console.log("player Found");
+                            console.log("count = " + playerFoundCount);
+                        }
+                    })
+                })
+
+            console.log("count = " + playerFoundCount);
         }
 
     });
